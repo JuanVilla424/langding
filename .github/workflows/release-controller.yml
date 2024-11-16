@@ -19,7 +19,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     env:
       REPO_NAME: ${{ github.event.repository.name }}
-      FOLDER_TO_COMPRESS: 'langding'
+      FOLDER_TO_COMPRESS: 'src'
     steps:
       - name: Checkout repository
         id: checkout_repository

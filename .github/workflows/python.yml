@@ -11,7 +11,7 @@ jobs:
         python-version: ["3.12"]
     env:
       REPO_NAME: ${{ github.event.repository.name }}
-      FOLDER_TO_COMPRESS: 'langding'
+      FOLDER_TO_COMPRESS: 'src'
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
