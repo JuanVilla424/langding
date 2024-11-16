@@ -29,9 +29,7 @@ def configure_logger(log_level: str = "INFO") -> None:
     os.makedirs("logs", exist_ok=True)
 
     # File handler with rotation
-    file_handler = RotatingFileHandler(
-        "logs//langding.log", maxBytes=5 * 1024 * 1024, backupCount=5
-    )
+    file_handler = RotatingFileHandler("logs/langding.log", maxBytes=5 * 1024 * 1024, backupCount=5)
     # Console handler
     console_handler = logging.StreamHandler()
 
@@ -52,7 +50,7 @@ def parse_arguments() -> argparse.Namespace:
         argparse.Namespace: Parsed arguments.
     """
     parser = argparse.ArgumentParser(
-        description="Langding is an AI driven landing auto-translate site."
+        description="Langding is an AI-driven landing auto-translate site."
     )
     parser.add_argument(
         "--input-dir",
@@ -69,7 +67,7 @@ def parse_arguments() -> argparse.Namespace:
         type=str,
         nargs="+",
         default=[],
-        help="List of languages to translate into. Defaults to English,Spanish,French,Germany.",
+        help="List of languages to translate into. Defaults to English, Spanish, French, German.",
     )
     parser.add_argument(
         "--log-level",
@@ -169,18 +167,76 @@ def generate_language_files(
                 translated_html = translated_html.replace(f"{{{{{placeholder}}}}}", translated_text)
 
         # Save the HTML file for the specific language
-        lang_filename = os.path.basename(template_path).replace(
-            "template_", f"output_{lang.lower()}_"
-        )
+        original_filename = os.path.basename(template_path).replace("template_", "")
+        lang_filename = f"output_{lang.lower()}_{original_filename}"
         lang_file_path = os.path.join(output_dir, lang_filename)
         with open(lang_file_path, "w", encoding="utf-8") as file:
             file.write(translated_html)
         logger.info(f"Generated: {lang_file_path}")
 
 
+def generate_redirect_file(input_html_filename, target_languages, output_dir):
+    """
+    Generate an HTML file that detects the user's language and redirects accordingly.
+
+    Args:
+        input_html_filename (str): The original input HTML file name.
+        target_languages (list): List of languages to consider for redirection.
+        output_dir (str): Directory where the output files are saved.
+    """
+    redirect_script = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Redirecting...</title>
+        <script>
+            function getPreferredLanguage() {{
+                // Check if 'language' parameter exists in the URL
+                var urlParams = new URLSearchParams(window.location.search);
+                var lang = urlParams.get('language') || localStorage.getItem('language');
+
+                if (!lang) {{
+                    // Get the browser's language
+                    lang = navigator.language || navigator.userLanguage;
+                    lang = lang.split('-')[0];
+                }}
+
+                lang = lang.toLowerCase();
+
+                // List of supported languages
+                var supportedLangs = {json.dumps([lang.lower() for lang in target_languages])};
+
+                if (!supportedLangs.includes(lang)) {{
+                    lang = 'english';  // Default to English if not supported
+                }}
+
+                return lang;
+            }}
+
+            var lang = getPreferredLanguage();
+            // Save the preferred language to localStorage for future visits
+            localStorage.setItem('language', lang);
+
+            // Redirect to the corresponding language file
+            window.location.href = 'output_' + lang + '_{input_html_filename}';
+        </script>
+    </head>
+    <body>
+        <p>Redirecting to your language preference...</p>
+    </body>
+    </html>
+    """
+
+    redirect_file_path = os.path.join(output_dir, input_html_filename)
+    with open(redirect_file_path, "w", encoding="utf-8") as file:
+        file.write(redirect_script)
+    logger.info(f"Generated redirect file: {redirect_file_path}")
+
+
 def main():
     """
-    Main function to run the translation process for all HTML files in the 'input' directory.
+    Main function to run the translation process for all HTML files in the input directory.
     """
     start_time = time.time()
 
@@ -202,8 +258,8 @@ def main():
     if not openai_api_key:
         raise ValueError("Please set the OPENAI_API_KEY environment variable.")
 
-    # Initialize OpenAI client
-    client = openai.OpenAI(api_key=openai_api_key)
+    # Set the OpenAI API key
+    openai.api_key = openai_api_key
 
     try:
         # Process each HTML file in the input directory
@@ -232,10 +288,10 @@ def main():
                     translations[text] = {}
                     for lang in target_languages:
                         # Create the prompt for translation
-                        prompt = f"Translate the following text to {lang}:\n\n{text}"
+                        prompt = f"If text doesnt have translation returns same input text in same language I provided to u. Translate the following text to {lang}:\n\n{text}"
 
                         # Call the OpenAI API to get the translation
-                        response = client.chat.completions.create(
+                        response = openai.chat.completions.create(
                             model=settings.OPENAI_MODEL,
                             messages=[
                                 {
@@ -265,6 +321,9 @@ def main():
                     placeholders_dict,
                     output_dir,
                 )
+
+                # Step 7: Generate the redirect HTML file
+                generate_redirect_file(os.path.basename(html_file), target_languages, output_dir)
 
                 logger.info("Process Finished")
     except Exception as e:
