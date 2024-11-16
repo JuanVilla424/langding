@@ -1,7 +1,7 @@
 # 🗺️ Langding
 
-![Status](https://img.shields.io/badge/Status-Stable-green.svg)
 ![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)
+![Status](https://img.shields.io/badge/Status-Development-blue.svg)
 ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
 Langding is an AI-driven landing page auto-translation tool. It reads HTML files, extracts text content, translates it into multiple languages using OpenAI's GPT models, and generates translated HTML files. This tool is useful for quickly localizing web pages into different languages.
