@@ -16,7 +16,7 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/*.*.*')
     env:
       REPO_NAME: ${{ github.event.repository.name }}
       FOLDER_TO_COMPRESS: 'src'
