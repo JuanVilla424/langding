@@ -38,7 +38,6 @@ Langding is an AI-driven landing page auto-translation tool. It reads HTML files
 2. **Create a Virtual Environment**
 
    ```bash
-   cd langding
    python -m venv venv
    ```
 
@@ -65,6 +64,7 @@ Langding is an AI-driven landing page auto-translation tool. It reads HTML files
 4. **Upgrade pip**
 
    ```bash
+   python -m ensurepip
    pip install --upgrade pip
    ```
 
@@ -124,7 +124,7 @@ OPENAI_MODEL="gpt-3.5-turbo"
 Run the main script:
 
 ```bash
-python __init__.py
+python langding.py
 ```
 
 This will process all HTML files in the input directory and generate translated versions in the output directory.
@@ -136,31 +136,31 @@ You can customize the behavior using the following arguments:
 `--input-dir: Specify the input directory containing HTML files.`
 
 ```bash
-python main.py --input-dir path/to/your/input
+python langding.py --input-dir path/to/your/input
 ```
 
 `--output-dir: Specify the output directory for the translated files.`
 
 ```bash
-python main.py --output-dir path/to/your/output
+python langding.py --output-dir path/to/your/output
 ```
 
 `--languages: List of languages to translate into.`
 
 ```bash
-python main.py --languages Spanish Italian Japanese
+python langding.py --languages Spanish,Italian,Japanese
 ```
 
 `--log-level: Set the logging level (INFO or DEBUG).`
 
 ```bash
-python main.py --log-level DEBUG
+python langding.py --log-level DEBUG
 ```
 
 ### 📝 Example Usage
 
 ```bash
-python __init__.py --input-dir input_html --output-dir translated_html --languages Spanish,German --log-level INFO
+python langding.py --input-dir input_html --output-dir translated_html --languages Spanish,German --log-level INFO
 ```
 
 ### 📜 Environment Variables
