@@ -175,7 +175,7 @@ Ensure all required environment variables are set in the .env file:
 
 ## 📊 Logging
 
-Logs are maintained in crypto_controller.log with rotating file handlers to prevent excessive file sizes.
+Logs are maintained in logs/langding.log with rotating file handlers to prevent excessive file sizes.
 
     Log Levels:
         INFO: General operational messages.
