@@ -10,12 +10,16 @@ package-lock.json*
 dist/
 *.tsbuildinfo
 
+.claude/
+
 # Poetry
 poetry.lock
 
 # Environment variables
 .env
 .env.*.local
+
+output
 
 # Logs
 logs
