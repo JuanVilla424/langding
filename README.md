@@ -1,185 +1,311 @@
+<div align="center">
+
 # 🗺️ Langding
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)
-![Status](https://img.shields.io/badge/Status-Development-blue.svg)
-![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)
+_AI-Powered Landing Page Translation Tool_
 
-Langding is an AI-driven landing page auto-translation tool. It reads HTML files, extracts text content, translates it into multiple languages using OpenAI's GPT models, and generates translated HTML files. This tool is useful for quickly localizing web pages into different languages.
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)
+![AI](https://img.shields.io/badge/AI-OpenAI%20%7C%20Anthropic-green.svg)
+![Status](https://img.shields.io/badge/Status-Development-yellow.svg)
+![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)
+![Automation](https://img.shields.io/badge/Automation-Translation-orange.svg)
+
+</div>
+
+---
+
+## 🌐 Overview
+
+Langding is an AI-driven landing page auto-translation tool designed for developers who need to localize their websites efficiently. It extracts meaningful content from HTML files, translates it using advanced AI models (OpenAI GPT or Anthropic Claude), and generates complete multilingual versions with automatic language detection.
+
+### 🎯 Core Translation Features
+
+- **🤖 AI-Powered Translation**: Leverages OpenAI GPT or Anthropic Claude for context-aware translations
+- **🌍 Multi-Language Support**: Supports 10+ languages with automatic browser detection
+- **📄 Smart Template System**: Generates reusable templates with intelligent placeholder mapping
+- **🔄 Auto-Redirect Generation**: Creates language detection and redirect pages
+- **⚡ Batch Processing**: Efficiently processes multiple HTML files
+- **🎛️ Flexible Configuration**: Environment-based and CLI configuration options
+
+---
+
+<div align="center">
 
 ## 📚 Table of Contents
 
-- [Features](#-features)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
-- [Usage](#-usage)
-  - [Initialization](#-initialization)
-- [Environment Variables](#-environment-variables)
-- [Logging](#-logging)
-- [License](#-license)
-- [Contact](#-contact)
+|         🎯 **Core Sections**         |                📖 **Technical Docs**                |               🚀 **Advanced Usage**               |
+| :----------------------------------: | :-------------------------------------------------: | :-----------------------------------------------: |
+|      [✨ Features](#-features)       | [🔧 Environment Variables](#-environment-variables) | [📁 Processing Templates](#-processing-templates) |
+|  [🛠️ Installation](#️-installation)  |  [🎛️ Command Line Options](#-command-line-options)  |    [🤖 AI Provider Setup](#-ai-provider-setup)    |
+| [⚙️ Configuration](#️-configuration) |               [📊 Logging](#-logging)               |             [📝 Examples](#-examples)             |
+|         [🚀 Usage](#-usage)          |               [📜 License](#-license)               |              [📫 Contact](#-contact)              |
+
+</div>
+
+---
 
 ## ✨ Features
 
-- **Automated Translation**: Translates HTML content into multiple languages using OpenAI's GPT models.
-- **Template Generation**: Creates HTML templates with placeholders for easy text replacement.
-- **Multi-language Support**: Supports translation into any language specified.
-- **Logging**: Detailed logging with rotating file handlers for easy debugging and monitoring.
-- **Configuration**: Easily configurable via environment variables and command-line arguments.
+```mermaid
+graph TD
+    A[HTML Input] --> B[Content Extraction]
+    B --> C{AI Translation}
+    C -->|OpenAI GPT| D[Context-Aware Translation]
+    C -->|Anthropic Claude| D
+    D --> E[Template Generation]
+    E --> F[Multi-Language Output]
+    F --> G[Auto-Redirect Pages]
+
+    H[Configuration] --> C
+    H --> I[Environment Variables]
+    H --> J[CLI Arguments]
+
+    K[Logging System] --> L[Rotation & Monitoring]
+
+    style A fill:#e1f5fe
+    style F fill:#f3e5f5
+    style G fill:#fff3e0
+    style C fill:#e8f5e8
+```
+
+### 🔧 Core Translation Engine
+
+- **Smart Content Extraction**: Prioritizes headings, paragraphs, and meta content
+- **Context Preservation**: Maintains technical accuracy and professional tone
+- **Template Generation**: Creates reusable placeholders for efficient processing
+
+### 🌐 Multi-AI Support
+
+- **OpenAI GPT Integration**: Support for GPT-3.5-turbo and GPT-4 models
+- **Anthropic Claude Integration**: Claude-3-haiku and Claude-3-sonnet support
+- **Provider Switching**: Easy configuration between AI providers
+
+### 📄 Output Management
+
+- **Structured File Generation**: Organized output with language-specific files
+- **Auto-Redirect System**: Browser language detection with fallback support
+- **GitHub Pages Ready**: Direct deployment compatibility
+
+---
 
 ## 🛠️ Installation
 
-1. **Clone the Repository:**
+### Prerequisites
 
-   ```bash
-   git clone https://github.com/JuanVilla424/langding.git
-   cd langding
-   ```
+- **Python 3.11+**
+- **Git**
+- **AI API Key** (OpenAI OR Anthropic)
 
-2. **Create a Virtual Environment**
+### Quick Setup
 
-   ```bash
-   python -m venv venv
-   ```
+```bash
+# Clone repository
+git clone https://github.com/JuanVilla424/langding.git
+cd langding
 
-3. **Activate the Virtual Environment**
+# Setup virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: .\venv\Scripts\activate
 
-   On Unix or MacOS:
+# Install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-   ```bash
-   source venv/bin/activate
-   ```
+### 🔑 AI Provider Setup
 
-   On Windows:
+Choose **ONE** provider:
 
-   ```bash
-    .\venv\Scripts\activate
-   ```
+**Option A: OpenAI**
 
-   - or
+```bash
+export OPENAI_API_KEY='sk-your-openai-key-here'
+export AI_PROVIDER='openai'
+```
 
-   ```bash
-    powershell.exe -ExecutionPolicy Bypass -File .\venv\Scripts\Activate.ps1
-   ```
+**Option B: Anthropic Claude**
 
-4. **Upgrade pip**
+```bash
+export ANTHROPIC_API_KEY='sk-ant-your-anthropic-key-here'
+export AI_PROVIDER='anthropic'
+```
 
-   ```bash
-   python -m ensurepip
-   pip install --upgrade pip
-   ```
-
-5. **Set up your OpenAI API key**:
-
-   Obtain your API key from OpenAI and set it as an environment variable:
-
-   ```bash
-   export OPENAI_API_KEY='your-api-key-here'
-   ```
-
-6. **Install Dependencies**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-   - Deactivate the Virtual Environment
-
-   When you're done, deactivate the environment:
-
-   ```bash
-    deactivate
-   ```
+---
 
 ## ⚙️ Configuration
 
-**Environment Variables**:
+### Environment Configuration
 
-Create a .env file in the project root directory and populate it with the following variables:
+Create `.env` file:
 
-```bash
-INPUT_DIR=input
+```env
+# Output Configuration
 OUTPUT_DIR=output
-LANGS=["English","Spanish","French","German"]
-OPENAI_MODEL="gpt-3.5-turbo"
+
+# Language Selection (JSON format)
+LANGS=["English","Spanish","French","German","Portuguese","Italian","Japanese","Korean","Chinese","Arabic"]
+
+# AI Provider Selection
+AI_PROVIDER=openai  # Options: openai, anthropic
+
+# OpenAI Configuration
+OPENAI_API_KEY=your-openai-api-key-here
+OPENAI_MODEL=gpt-3.5-turbo
+
+# Anthropic Configuration
+ANTHROPIC_API_KEY=your-anthropic-api-key-here
+ANTHROPIC_MODEL=claude-3-haiku-20240307
 ```
 
-- Descriptions:
-  - INPUT_DIR: Directory containing input HTML files.
-  - OUTPUT_DIR: Directory to save output files.
-  - LANGS: List of languages to translate into.
-  - OPENAI_MODEL: OpenAI model target.
+### 📋 Configuration Variables
+
+| Variable            | Description                          | Default                                   | Required                |
+| :------------------ | :----------------------------------- | :---------------------------------------- | :---------------------- |
+| `OUTPUT_DIR`        | Output directory for generated files | `output`                                  | ❌                      |
+| `LANGS`             | Target languages (JSON array)        | `["English","Spanish","French","German"]` | ❌                      |
+| `AI_PROVIDER`       | AI service provider                  | `openai`                                  | ❌                      |
+| `OPENAI_API_KEY`    | OpenAI API key                       | -                                         | ✅ (if using OpenAI)    |
+| `ANTHROPIC_API_KEY` | Anthropic API key                    | -                                         | ✅ (if using Anthropic) |
+| `OPENAI_MODEL`      | OpenAI model name                    | `gpt-3.5-turbo`                           | ❌                      |
+| `ANTHROPIC_MODEL`   | Anthropic model name                 | `claude-3-haiku-20240307`                 | ❌                      |
+
+---
 
 ## 🚀 Usage
 
-### 📦 Initialization
-
-1. Prepare Input HTML Files:
-   Place your HTML files that you want to translate into the input directory (or your specified input directory).
-
-2. Configure Settings:
-   Ensure your environment variables are set, or prepare to pass configurations via command-line arguments.
-
-### Translating HTML Files
-
-Run the main script:
+### Basic Commands
 
 ```bash
-python langding.py
+# Process templates directory
+python langding.py --process-templates
+
+# Process custom input directory
+python langding.py --input-dir input_html --output-dir translated_html
+
+# Specify target languages
+python langding.py --process-templates --languages Spanish French German
+
+# Enable debug logging
+python langding.py --process-templates --log-level DEBUG
 ```
 
-This will process all HTML files in the input directory and generate translated versions in the output directory.
+### 📁 Processing Templates
 
-### Command-Line Arguments
+**Input Structure:**
 
-You can customize the behavior using the following arguments:
+```
+templates/
+├── index.html          # Main landing page
+├── about.html          # Additional pages
+└── contact.html        # More pages
+```
 
-`--input-dir: Specify the input directory containing HTML files.`
+**Command:**
 
 ```bash
-python langding.py --input-dir path/to/your/input
+python langding.py --process-templates
 ```
 
-`--output-dir: Specify the output directory for the translated files.`
+**Generated Output:**
+
+```
+output/
+├── index.html                    # Auto-redirect page
+├── english_index.html           # English version
+├── spanish_index.html           # Spanish version
+├── french_index.html            # French version
+├── template_index.html          # Template with placeholders
+└── index_translations.json     # Translation metadata
+```
+
+---
+
+## 🎛️ Command Line Options
 
 ```bash
-python langding.py --output-dir path/to/your/output
+python langding.py [OPTIONS]
+
+Options:
+  --input-dir TEXT        Input directory containing HTML files
+  --output-dir TEXT       Output directory for generated files
+  --template-dir TEXT     Template directory (default: templates)
+  --languages TEXT...     Target languages for translation
+  --log-level CHOICE      Logging level [DEBUG|INFO|WARNING|ERROR]
+  --process-templates     Process files from templates directory
+  --help                  Show help message and exit
 ```
 
-`--languages: List of languages to translate into.`
+---
+
+## 📝 Examples
+
+### Example 1: Basic Translation
 
 ```bash
-python langding.py --languages Spanish,Italian,Japanese
+# Translate templates to Spanish and French
+python langding.py --process-templates --languages Spanish French
 ```
 
-`--log-level: Set the logging level (INFO or DEBUG).`
+### Example 2: Custom Workflow
 
 ```bash
-python langding.py --log-level DEBUG
+# Custom directories with specific languages
+python langding.py \
+  --input-dir my_website \
+  --output-dir translations \
+  --languages English Spanish Portuguese Italian \
+  --log-level INFO
 ```
 
-### 📝 Example Usage
+### Example 3: Development Mode
 
 ```bash
-python langding.py --input-dir input_html --output-dir translated_html --languages Spanish,German --log-level INFO
+# Debug mode with detailed logging
+python langding.py --process-templates --log-level DEBUG
 ```
 
-### 📜 Environment Variables
+---
 
-Ensure all required environment variables are set in the .env file:
+## 🤖 AI Provider Setup
 
-    Global Variables
-        INPUT_DIR: Directory containing input HTML files.
-        OUTPUT_DIR: Directory to save output files.
-        LANGS: List of languages to translate into.
-        OPENAI_MODEL: OpenAI Model Target.
+### OpenAI Configuration
+
+1. Get API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+2. Set environment variables:
+
+```bash
+export OPENAI_API_KEY='sk-your-key-here'
+export AI_PROVIDER='openai'
+```
+
+### Anthropic Claude Configuration
+
+1. Get API key from [Anthropic Console](https://console.anthropic.com/)
+2. Set environment variables:
+
+```bash
+export ANTHROPIC_API_KEY='sk-ant-your-key-here'
+export AI_PROVIDER='anthropic'
+```
+
+---
 
 ## 📊 Logging
 
-Logs are maintained in logs/langding.log with rotating file handlers to prevent excessive file sizes.
+Logs are stored in `logs/langding.log` with automatic rotation:
 
-    Log Levels:
-        INFO: General operational messages.
-        DEBUG: Detailed diagnostic information.
+- **File Size Limit**: 5MB per file
+- **Backup Count**: 5 files maximum
+- **Format**: `timestamp - logger - level - message`
+
+### Log Levels
+
+- **`DEBUG`**: Detailed diagnostic information
+- **`INFO`**: General operational messages
+- **`WARNING`**: Warning messages for potential issues
+- **`ERROR`**: Error messages for failed operations
+
+---
 
 ## 📫 Contact
 
@@ -189,4 +315,8 @@ For any inquiries or support, please open an issue or contact [r6ty5r296it6tl4eg
 
 ## 📜 License
 
-2024 - This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). You are free to use, modify, and distribute this software under the terms of the GPL-3.0 license. For more details, please refer to the [LICENSE](LICENSE) file included in this repository.
+<div align="center">
+
+2025 — This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). You are free to use, modify, and distribute this software under the terms of the GPL-3.0 license. For more details, please refer to the [LICENSE](LICENSE) file included in this repository.
+
+</div>
