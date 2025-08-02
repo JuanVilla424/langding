@@ -1,11 +1,29 @@
 ---
-# .github/ISSUE_TEMPLATE/config.yml
+# 🎛️ GitHub Issue Template Configuration
+# This file configures the issue creation experience for Langding
 
-blank_issues_enabled: false
+blank_issues_enabled: true
 contact_links:
-  - name: Langding Community Support
+  - name: 💬 Community Discussions
     url: https://github.com/JuanVilla424/langding/discussions
-    about: Please ask and answer questions here.
-  - name: Langding Security Reports
-    url: https://juanvilla424.github.io/langding/SECURITY
-    about: Please report security vulnerabilities here.
+    about: "Ask questions, share ideas, and connect with the community"
+
+  - name: 🔒 Private Security Reports
+    url: https://github.com/JuanVilla424/langding/security/advisories
+    about: "Report critical security vulnerabilities privately"
+
+  - name: 📚 Documentation & Wiki
+    url: https://juanvilla424.github.io/langding/
+    about: "Browse comprehensive documentation and guides"
+
+  - name: 🚀 Feature Roadmap
+    url: https://github.com/JuanVilla424/langding/projects
+    about: "View planned features and project progress"
+
+  - name: 🤖 AI Translation Help
+    url: https://github.com/JuanVilla424/langding/discussions/categories/q-a
+    about: "Get help with OpenAI/Anthropic setup and translation issues"
+
+  - name: 💡 Ideas & Suggestions
+    url: https://github.com/JuanVilla424/langding/discussions/categories/ideas
+    about: "Share ideas for new translation features and improvements"
