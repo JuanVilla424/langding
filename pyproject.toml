@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "langding"
-version = "1.0.8"
+version = "1.0.9"
 description = "Langding is an AI driven landing auto-translate site."
 authors = ["B <g46327wsj1.marbling129@passinbox.com>"]
 license = "GLPv3"
@@ -12,9 +12,9 @@ langding = "langding:main"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-setuptools = "^75.2.0"
+setuptools = "^80.9.0"
 idna="^3.0"
-certifi="^2024.8.30"
+certifi="^2025.7.14"
 bump2version="^1.0.0"
 b64="0.4"
 openai="^1.54.0"

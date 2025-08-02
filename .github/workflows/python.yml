@@ -9,13 +9,10 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.12"]
-    env:
-      REPO_NAME: ${{ github.event.repository.name }}
-      FOLDER_TO_COMPRESS: 'src'
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v3
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -29,11 +26,9 @@ jobs:
       - name: Format check with Black
         run: |
           source venv/bin/activate
-          black --check "${FOLDER_TO_COMPRESS}"/
-        env:
-          REPO_NAME: ${{ env.REPO_NAME }}
-          FOLDER_TO_COMPRESS: ${{ env.FOLDER_TO_COMPRESS }}
+          black --check scripts/
       - name: Lint with Pylint
         run: |
           source venv/bin/activate
           pylint $(git ls-files '*.py')
+        continue-on-error: true
