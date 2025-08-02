@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "langding"
-version = "1.0.9"
+version = "1.0.10"
 description = "Langding is an AI driven landing auto-translate site."
 authors = ["B <g46327wsj1.marbling129@passinbox.com>"]
 license = "GLPv3"
