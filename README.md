@@ -4,7 +4,7 @@
 
 _AI-Powered Landing Page Translation Tool_
 
-![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)
+![Python](https://img.shields.io/badge/Python-3.12%2B-blue.svg)
 ![AI](https://img.shields.io/badge/AI-OpenAI%20%7C%20Anthropic-green.svg)
 ![Status](https://img.shields.io/badge/Status-Development-yellow.svg)
 ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)
@@ -92,7 +92,7 @@ graph TD
 
 ### Prerequisites
 
-- **Python 3.11+**
+- **Python 3.12+**
 - **Git**
 - **AI API Key** (OpenAI OR Anthropic)
 
@@ -103,12 +103,11 @@ graph TD
 git clone https://github.com/JuanVilla424/langding.git
 cd langding
 
-# Setup virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: .\venv\Scripts\activate
+# Setup virtual environment (always .venv)
+python -m venv .venv
+source .venv/bin/activate  # Windows: .\.venv\Scripts\activate
 
 # Install dependencies
-pip install --upgrade pip
 pip install -r requirements.txt
 ```
 

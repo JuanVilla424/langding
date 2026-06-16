@@ -3,7 +3,7 @@ name = "langding"
 version = "1.0.11"
 description = "Langding is an AI driven landing auto-translate site."
 authors = ["B <g46327wsj1.marbling129@passinbox.com>"]
-license = "GLPv3"
+license = "GPLv3"
 readme = "README.md"
 package-mode = false
 
@@ -16,20 +16,21 @@ setuptools = "^80.9.0"
 idna="^3.0"
 certifi="^2025.7.14"
 bump2version="^1.0.0"
-b64="0.4"
 openai="^1.54.0"
+anthropic="^0.18.0"
+beautifulsoup4="^4.9.3"
 pydantic = { version = ">=2.9.1", extras = ["email"] }
 pydantic-settings = ">=2.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.0.0"
-pylint="^3.3.0"
-isort = "^5.12.0"
+pylint="^4.0.0"
+isort = "^6.0.0"
 toml="^0.10.0"
-black="^24.3.0"
-pytest = "^8.3.1"
+black="^26.0.0"
+pytest = "^9.0.0"
 httpx = "^0.27.2"
-pytest-cov = "^6.0.0"
+pytest-cov = "^7.0.0"
 alembic = "^1.11.1"
 yamllint = "^1.35.0"
 coverage = "^7.2.5"
@@ -60,7 +61,7 @@ exclude = '''
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "--cov=app --cov-report=xml:coverage.xml --cov-report=term"
+addopts = "--cov=src --cov-report=xml:coverage.xml --cov-report=term"
 testpaths = ["tests"]
 
 [tool.isort]

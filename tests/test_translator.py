@@ -3,10 +3,7 @@ Unit tests for LangdingTranslator class.
 """
 
 import pytest
-import json
-from pathlib import Path
-from unittest.mock import Mock, patch, mock_open
-from bs4 import BeautifulSoup
+from unittest.mock import Mock, patch
 
 from src.main import LangdingTranslator
 
@@ -234,3 +231,141 @@ class TestLangdingTranslator:
             spanish_content = spanish_file.read_text(encoding="utf-8")
             assert "Bienvenido a Nuestro Sitio Web" in spanish_content
             assert "Este es el párrafo de contenido principal." in spanish_content
+
+    @patch("src.main.settings")
+    def test_init_anthropic_missing_key(self, mock_settings, temp_dir):
+        """Anthropic provider without a key raises ValueError."""
+        mock_settings.AI_PROVIDER = "anthropic"
+        mock_settings.ANTHROPIC_API_KEY = None
+
+        with pytest.raises(ValueError, match="ANTHROPIC_API_KEY not set"):
+            LangdingTranslator(
+                input_dir=str(temp_dir / "input"), output_dir=str(temp_dir / "output")
+            )
+
+    @patch("src.main.settings")
+    def test_process_template_directory_missing(self, mock_settings, temp_dir):
+        """A missing template directory logs a warning and returns without error."""
+        mock_settings.AI_PROVIDER = "openai"
+        mock_settings.OPENAI_API_KEY = "test-key"
+
+        with patch("src.main.OpenAI"):
+            translator = LangdingTranslator(
+                input_dir=str(temp_dir / "input"),
+                output_dir=str(temp_dir / "output"),
+                template_dir=str(temp_dir / "does-not-exist"),
+            )
+            translator.process_template_directory(["Spanish"])
+
+    @patch("src.main.settings")
+    def test_process_template_directory_empty(self, mock_settings, temp_dir):
+        """A template directory with no HTML files logs a warning and returns."""
+        mock_settings.AI_PROVIDER = "openai"
+        mock_settings.OPENAI_API_KEY = "test-key"
+        template_dir = temp_dir / "templates"
+        template_dir.mkdir()
+
+        with patch("src.main.OpenAI"):
+            translator = LangdingTranslator(
+                input_dir=str(temp_dir / "input"),
+                output_dir=str(temp_dir / "output"),
+                template_dir=str(template_dir),
+            )
+            translator.process_template_directory(["Spanish"])
+
+    @patch("src.main.settings")
+    def test_process_input_directory_missing(self, mock_settings, temp_dir):
+        """A missing input directory logs a warning and returns."""
+        mock_settings.AI_PROVIDER = "openai"
+        mock_settings.OPENAI_API_KEY = "test-key"
+
+        with patch("src.main.OpenAI"):
+            translator = LangdingTranslator(
+                input_dir=str(temp_dir / "does-not-exist"), output_dir=str(temp_dir / "output")
+            )
+            translator.process_input_directory(["Spanish"])
+
+    @patch("src.main.settings")
+    def test_process_input_directory_processes_files(self, mock_settings, temp_dir, sample_html):
+        """Each HTML file in the input directory is handed to process_html_file."""
+        mock_settings.AI_PROVIDER = "openai"
+        mock_settings.OPENAI_API_KEY = "test-key"
+        input_dir = temp_dir / "input"
+        input_dir.mkdir()
+        (input_dir / "page.html").write_text(sample_html, encoding="utf-8")
+
+        with patch("src.main.OpenAI"):
+            translator = LangdingTranslator(
+                input_dir=str(input_dir), output_dir=str(temp_dir / "output")
+            )
+            with patch.object(translator, "process_html_file") as processor:
+                translator.process_input_directory(["Spanish"])
+            processor.assert_called_once()
+
+    @patch("src.main.settings")
+    def test_extract_strips_script_and_style(self, mock_settings, temp_dir):
+        """Script and style blocks are stripped before extraction."""
+        mock_settings.AI_PROVIDER = "openai"
+        mock_settings.OPENAI_API_KEY = "test-key"
+
+        with patch("src.main.OpenAI"):
+            translator = LangdingTranslator(
+                input_dir=str(temp_dir / "input"), output_dir=str(temp_dir / "output")
+            )
+            html_file = temp_dir / "scripted.html"
+            html_file.write_text(
+                "<html><head><title>Title Here</title><style>.x{color:red}</style></head>"
+                "<body><script>alert(1)</script><p>Visible paragraph content here.</p></body></html>",
+                encoding="utf-8",
+            )
+            texts = translator.extract_text_from_html(html_file)
+            assert "Visible paragraph content here." in texts
+            assert not any("alert" in text for text in texts)
+
+    @patch("src.main.settings")
+    def test_process_input_directory_empty(self, mock_settings, temp_dir):
+        """An input directory with no HTML files logs a warning and returns."""
+        mock_settings.AI_PROVIDER = "openai"
+        mock_settings.OPENAI_API_KEY = "test-key"
+        input_dir = temp_dir / "input"
+        input_dir.mkdir()
+
+        with patch("src.main.OpenAI"):
+            translator = LangdingTranslator(
+                input_dir=str(input_dir), output_dir=str(temp_dir / "output")
+            )
+            translator.process_input_directory(["Spanish"])
+
+    @patch("src.main.settings")
+    def test_process_template_directory_handles_errors(self, mock_settings, temp_dir, sample_html):
+        """An error processing a template file is logged, not raised."""
+        mock_settings.AI_PROVIDER = "openai"
+        mock_settings.OPENAI_API_KEY = "test-key"
+        template_dir = temp_dir / "templates"
+        template_dir.mkdir()
+        (template_dir / "page.html").write_text(sample_html, encoding="utf-8")
+
+        with patch("src.main.OpenAI"):
+            translator = LangdingTranslator(
+                input_dir=str(temp_dir / "input"),
+                output_dir=str(temp_dir / "output"),
+                template_dir=str(template_dir),
+            )
+            with patch.object(translator, "process_html_file", side_effect=Exception("boom")):
+                translator.process_template_directory(["Spanish"])
+
+    @patch("src.main.settings")
+    def test_process_input_directory_handles_errors(self, mock_settings, temp_dir, sample_html):
+        """An error processing an input file is logged, not raised."""
+        mock_settings.AI_PROVIDER = "openai"
+        mock_settings.OPENAI_API_KEY = "test-key"
+        input_dir = temp_dir / "input"
+        input_dir.mkdir()
+        (input_dir / "page.html").write_text(sample_html, encoding="utf-8")
+
+        with patch("src.main.OpenAI"):
+            translator = LangdingTranslator(
+                input_dir=str(input_dir), output_dir=str(temp_dir / "output")
+            )
+            with patch.object(translator, "process_html_file", side_effect=Exception("boom")):
+                translator.process_input_directory(["Spanish"])
