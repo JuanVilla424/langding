@@ -33,12 +33,12 @@ Langding is an AI-driven landing page auto-translation tool designed for develop
 
 ## 📚 Table of Contents
 
-|         🎯 **Core Sections**         |                📖 **Technical Docs**                |               🚀 **Advanced Usage**               |
-| :----------------------------------: | :-------------------------------------------------: | :-----------------------------------------------: |
-|      [✨ Features](#-features)       | [🔧 Environment Variables](#-environment-variables) | [📁 Processing Templates](#-processing-templates) |
+|        🎯 **Core Sections**         |                📖 **Technical Docs**                |               🚀 **Advanced Usage**               |
+| :---------------------------------: | :-------------------------------------------------: | :-----------------------------------------------: |
+|      [✨ Features](#-features)      | [🔧 Environment Variables](#-environment-variables) | [📁 Processing Templates](#-processing-templates) |
 |  [🛠️ Installation](#️-installation)  |  [🎛️ Command Line Options](#-command-line-options)  |    [🤖 AI Provider Setup](#-ai-provider-setup)    |
 | [⚙️ Configuration](#️-configuration) |               [📊 Logging](#-logging)               |             [📝 Examples](#-examples)             |
-|         [🚀 Usage](#-usage)          |               [📜 License](#-license)               |              [📫 Contact](#-contact)              |
+|         [🚀 Usage](#-usage)         |               [📜 License](#-license)               |              [📫 Contact](#-contact)              |
 
 </div>
 
@@ -317,6 +317,6 @@ For any inquiries or support, please open an issue or contact [r6ty5r296it6tl4eg
 
 <div align="center">
 
-2025 — This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). You are free to use, modify, and distribute this software under the terms of the GPL-3.0 license. For more details, please refer to the [LICENSE](LICENSE) file included in this repository.
+2026 — This project is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html). You are free to use, modify, and distribute this software under the terms of the GPL-3.0 license. For more details, please refer to the [LICENSE](LICENSE) file included in this repository.
 
 </div>
