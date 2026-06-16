@@ -2,7 +2,7 @@
 pre-commit>=4.0.0
 
 # Pylint for python lint
-pylint>=3.3.1
+pylint>=4.0.0
 
 # Poetry for package management alternative
 poetry>=1.8.4
@@ -17,11 +17,11 @@ toml>=0.10.1
 alembic>=1.11.1
 
 # Black for Code Formatting
-black>=24.3.0
+black>=26.0.0
 
 # Pytest for Unit/Integration Testing
-pytest>=7.3.1
-pytest-cov>=5.0.0
+pytest>=9.0.0
+pytest-cov>=7.0.0
 
 # Coverage Reporting
 coverage>=7.2.5

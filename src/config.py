@@ -1,7 +1,8 @@
 # src/config.py
 import os
+from typing import Optional
 
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -12,26 +13,21 @@ class Settings(BaseSettings):
         :param BaseSettings: (BaseSettings) Base Settings Object.
     """
 
-    # Global Config (Optional)
-    INPUT_DIR: str = "input"
-    OUTPUT_DIR: str = "output"
+    # Global Config (env-overridable; LANGS env is parsed as a JSON array by pydantic-settings)
+    INPUT_DIR: str = os.getenv("INPUT_DIR", "input")
+    OUTPUT_DIR: str = os.getenv("OUTPUT_DIR", "output")
     LANGS: list = ["English", "Spanish", "French", "German"]
 
     # API Keys (only one required)
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY")
-    ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY")
+    OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
+    ANTHROPIC_API_KEY: Optional[str] = os.getenv("ANTHROPIC_API_KEY")
 
     # Model selection
     AI_PROVIDER: str = os.getenv("AI_PROVIDER", "openai")  # "openai" or "anthropic"
-    OPENAI_MODEL: str = "gpt-3.5-turbo"
-    ANTHROPIC_MODEL: str = "claude-3-haiku-20240307"
+    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
+    ANTHROPIC_MODEL: str = os.getenv("ANTHROPIC_MODEL", "claude-3-haiku-20240307")
 
-    class Config:
-        """
-        Config Object.
-        """
-
-        env_file = ".env"
+    model_config = SettingsConfigDict(env_file=".env")
 
 
 settings = Settings()
