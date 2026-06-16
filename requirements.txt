@@ -1,7 +1,4 @@
 #
-b64==0.4
-
-#
 openai>=1.54.0
 
 # Anthropic Claude API

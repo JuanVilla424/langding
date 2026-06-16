@@ -385,7 +385,7 @@ def main():
     # Set target languages
     target_languages = args.languages if args.languages else settings.LANGS
 
-    logger.info(f"Starting Langding translation process")
+    logger.info("Starting Langding translation process")
     logger.info(f"Target languages: {', '.join(target_languages)}")
 
     try:
