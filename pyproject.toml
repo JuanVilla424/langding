@@ -17,7 +17,7 @@ idna="^3.0"
 certifi="^2025.7.14"
 bump2version="^1.0.0"
 openai=">=1.54,<3.0"
-anthropic="^0.18.0"
+anthropic=">=0.18,<0.121"
 beautifulsoup4="^4.9.3"
 pydantic = { version = ">=2.9.1", extras = ["email"] }
 pydantic-settings = ">=2.0.0"
